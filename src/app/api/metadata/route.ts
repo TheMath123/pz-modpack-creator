@@ -29,7 +29,10 @@ export async function GET(request: NextRequest) {
       $("title").text().replaceAll("Steam Workshop::", "");
 
     if (title === "Steam Community :: Error") {
-      return NextResponse.json({ error: "Mod not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Mod not found or invalid workshop ID" },
+        { status: 404 },
+      );
     }
 
     const metaDescription =

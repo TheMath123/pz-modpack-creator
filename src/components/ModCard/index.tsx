@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { Accordion, Loading } from "@/components";
+import { Accordion, Loading, CopyButton, ErrorCard } from "@/components";
 import Link from "next/link";
 import { cn } from "@/utils/cn";
-import { CopyButton } from "../CopyButton";
 
 interface ModCardProps {
   modId: number;
@@ -46,11 +45,8 @@ export function ModCard({ modId }: ModCardProps) {
   }, [modId]);
 
   if (error) {
-    return (
-      <div>
-        <p>Error: {error.message}</p>
-      </div>
-    );
+    const msg = JSON.parse(error.message).error;
+    return <ErrorCard title={msg} id={modId} />;
   }
 
   if (!modItem) {
@@ -71,7 +67,7 @@ export function ModCard({ modId }: ModCardProps) {
           )}
         </div>
         <div className="flex flex-col gap-2">
-          <h1 className="text-gray-50 font-medium">{modItem.title}</h1>
+          <h1 className="text-gray-50 font-bold">{modItem.title}</h1>
           {modItem.description && (
             <p className="text-gray-50 font-medium">{modItem.description}</p>
           )}
