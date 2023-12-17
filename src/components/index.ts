@@ -5,3 +5,4 @@ export * from "./Accordion";
 export * from "./Mark";
 export * from "./CopyButton";
 export * from "./ErrorCard";
+export * from "./Input";

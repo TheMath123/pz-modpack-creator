@@ -12,7 +12,7 @@ interface ErrorState {
   message: string;
 }
 
-export function ModCard({ modId }: ModCardProps) {
+export default function ModCard({ modId }: ModCardProps) {
   const [modItem, setModItem] = useState<ModObject | null>(null);
   const [error, setError] = useState<ErrorState | null>(null);
 
@@ -32,7 +32,6 @@ export function ModCard({ modId }: ModCardProps) {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         setModItem(data);
         setError(null);
       })
@@ -54,18 +53,17 @@ export function ModCard({ modId }: ModCardProps) {
   }
 
   return (
-    <main className="max-w-4xl border border-gray-50 rounded p-4 w-full flex flex-col gap-4 shadow bg-gray-950 items-start">
+    <main className="border border-gray-50 rounded p-4 w-full flex flex-col gap-4 shadow bg-gray-950 items-start">
       <div className="flex flex-col md:flex-row gap-4 md:items-center items-start">
-        <div className="flex w-40 h-40 overflow-hidden rounded border border-gray-50">
-          {modItem.imageURL && (
-            <Image
-              src={modItem.imageURL}
-              alt={modItem.title}
-              width={160}
-              height={160}
-            />
-          )}
-        </div>
+        {modItem.imageURL && (
+          <Image
+            className="block h-40 w-40 overflow-hidden rounded border border-gray-50 self-start"
+            src={modItem.imageURL}
+            alt={modItem.title ?? ""}
+            width={160}
+            height={160}
+          />
+        )}
         <div className="flex flex-col gap-2">
           <h1 className="text-gray-50 font-bold">{modItem.title}</h1>
           {modItem.description && (
@@ -96,19 +94,21 @@ export function ModCard({ modId }: ModCardProps) {
               />
             </p>
           )}
-          <div className="flex flex-row gap-2">
-            <Link
-              target="_blank"
-              href={modItem.url}
-              className={cn(
-                "text-gray-50 font-medium underline",
-                "hover:opacity-75",
-              )}
-            >
-              {modItem.url}
-            </Link>
-            <CopyButton content={modItem.url} />
-          </div>
+          {modItem.url && (
+            <div className="flex flex-row gap-2">
+              <Link
+                target="_blank"
+                href={modItem.url}
+                className={cn(
+                  "text-gray-50 font-medium underline",
+                  "hover:opacity-75",
+                )}
+              >
+                {modItem.url}
+              </Link>
+              <CopyButton content={modItem.url} />
+            </div>
+          )}
         </div>
       </div>
       {modItem.rawDescription && (
