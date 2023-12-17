@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Accordion, Loading } from "@/components";
 import Link from "next/link";
 import { cn } from "@/utils/cn";
+import { CopyButton } from "../CopyButton";
 
 interface ModCardProps {
   modId: number;
@@ -32,6 +33,7 @@ export function ModCard({ modId }: ModCardProps) {
         return response.json();
       })
       .then((data) => {
+        console.log(data);
         setModItem(data);
         setError(null);
       })
@@ -57,7 +59,7 @@ export function ModCard({ modId }: ModCardProps) {
 
   return (
     <main className="max-w-4xl border border-gray-50 rounded p-4 w-full flex flex-col gap-4 shadow bg-gray-950 items-start">
-      <div className="flex flex-row gap-4 items-center">
+      <div className="flex flex-col md:flex-row gap-4 md:items-center items-start">
         <div className="flex w-40 h-40 overflow-hidden rounded border border-gray-50">
           {modItem.imageURL && (
             <Image
@@ -73,30 +75,44 @@ export function ModCard({ modId }: ModCardProps) {
           {modItem.description && (
             <p className="text-gray-50 font-medium">{modItem.description}</p>
           )}
-          <p className="text-gray-50 font-medium">
-            <strong>Mod ID: </strong>
-            {modItem.mod_id}
-          </p>
-          <p className="text-gray-50 font-medium">
+          <p className="text-gray-50 font-medium flex flex-row gap-2">
             <strong>Workshop ID: </strong>
-            {modItem.workshop_id}
+            {modItem.workshop_id}{" "}
+            <CopyButton content={`${modItem.workshop_id}`} />
           </p>
+
+          <p className="text-gray-50 font-medium flex flex-row gap-2">
+            <strong>Mod ID: </strong>
+            {modItem.mod_id && modItem.mod_id.join("; ")}
+            <CopyButton
+              content={`${modItem.mod_id && modItem.mod_id.join("; ")}`}
+            />
+          </p>
+
           {modItem.map_folder && (
-            <p className="text-gray-50 font-medium">
+            <p className="text-gray-50 font-medium flex flex-row gap-2">
               <strong>Map Folder: </strong>
-              {modItem.map_folder}
+              {modItem.map_folder && modItem.map_folder.join("; ")}
+              <CopyButton
+                content={`${
+                  modItem.map_folder && modItem.map_folder.join("; ")
+                }`}
+              />
             </p>
           )}
-          <Link
-            target="_blank"
-            href={modItem.url}
-            className={cn(
-              "text-gray-50 font-medium underline",
-              "hover:opacity-75",
-            )}
-          >
-            {modItem.url}
-          </Link>
+          <div className="flex flex-row gap-2">
+            <Link
+              target="_blank"
+              href={modItem.url}
+              className={cn(
+                "text-gray-50 font-medium underline",
+                "hover:opacity-75",
+              )}
+            >
+              {modItem.url}
+            </Link>
+            <CopyButton content={modItem.url} />
+          </div>
         </div>
       </div>
       {modItem.rawDescription && (

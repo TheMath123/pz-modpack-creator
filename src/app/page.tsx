@@ -1,6 +1,6 @@
 "use client";
 
-import { ModCard } from "@/components";
+import { Loading, ModCard } from "@/components";
 import { cn } from "../utils/cn";
 
 export default function Home() {
@@ -15,6 +15,8 @@ export default function Home() {
         <ModCard modId={3110913021} />
         <ModCard modId={3111166249} />
         <ModCard modId={1510950729} />
+        <ModCard modId={1254546530} />
+        <Loading.Card />
       </div>
     </main>
   );

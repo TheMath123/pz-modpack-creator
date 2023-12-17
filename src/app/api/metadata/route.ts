@@ -25,7 +25,8 @@ export async function GET(request: NextRequest) {
     const $ = cheerio.load(response.data);
 
     const title =
-      $('meta[property="og:title"]').attr("content") || $("title").text();
+      $('meta[property="og:title"]').attr("content") ||
+      $("title").text().replaceAll("Steam Workshop::", "");
 
     if (title === "Steam Community :: Error") {
       return NextResponse.json({ error: "Mod not found" }, { status: 404 });
@@ -39,7 +40,7 @@ export async function GET(request: NextRequest) {
     const modInfo = findInfo(rawDescription);
 
     const modObject = {
-      title: title,
+      title: title.replaceAll("Steam Workshop::", ""),
       description: metaDescription,
       rawDescription: rawDescription,
       imageURL: image,
