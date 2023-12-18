@@ -1,11 +1,19 @@
 "use client";
 
-import { createContext, ReactNode, useContext, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { LocalStorage } from "@/infra/LocalStorage";
 
 interface ModListContextProps {
   modList: ModObject[];
   fillModData: (data: ModObject) => void;
-  fillModListWithStringList: (list: string) => void;
+  fetchModListData: (list: string) => void;
+  saveList: () => void;
 }
 
 export const ModListContext = createContext({} as ModListContextProps);
@@ -13,11 +21,27 @@ export const ModListContext = createContext({} as ModListContextProps);
 export function ModListProvider({ children }: { children: ReactNode }) {
   const [modList, setModList] = useState<ModObject[]>([]);
 
+  useEffect(() => {
+    loadStorageList();
+  }, []);
+
+  function saveList() {
+    LocalStorage.set("list", JSON.stringify(modList));
+  }
+
+  function loadStorageList() {
+    const strList = LocalStorage.get("list");
+    if (strList) {
+      setModList(JSON.parse(strList));
+    }
+  }
+
   function fillModData(data: ModObject) {
     const verifyItemFilled = modList.find(
       (item) => item.workshop_id === data.workshop_id,
     );
 
+    // Check if the id has already been registered
     if (verifyItemFilled?.title) {
       return;
     }
@@ -38,25 +62,42 @@ export function ModListProvider({ children }: { children: ReactNode }) {
     });
   }
 
-  function fillModListWithStringList(list: string) {
-    setModList((currentModList) => {
-      const workshopIds = list.split(";").map((id) => parseInt(id, 10));
+  function fetchModListData(list: string) {
+    const fetchBody = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        mod_list: list.split(";"),
+      }),
+    };
 
-      const newModObjects = workshopIds.reduce((newMods, id) => {
-        const exists = currentModList.some((mod) => mod.workshop_id === id);
-        if (!exists) {
-          newMods.push({ workshop_id: id, mod_id: null });
+    fetch("api/metadata", fetchBody)
+      .then((response) => {
+        if (!response.ok) {
+          return response.text().then((text) => {
+            throw new Error(text || response.statusText);
+          });
         }
-        return newMods;
-      }, [] as ModObject[]);
-
-      return [...currentModList, ...newModObjects];
-    });
+        return response.json();
+      })
+      .then((data) => {
+        setModList(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   return (
     <ModListContext.Provider
-      value={{ modList, fillModData, fillModListWithStringList }}
+      value={{
+        modList,
+        fillModData,
+        fetchModListData,
+        saveList,
+      }}
     >
       {children}
     </ModListContext.Provider>

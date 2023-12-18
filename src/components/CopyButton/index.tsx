@@ -28,9 +28,9 @@ export function CopyButton({ content }: CopyButtonProps) {
       </button>
 
       {showCopyAlertMessage && (
-        <span className="text-gray-50 font-semibold absolute z-10 top-0 left-8 bg-gray-950/50 px-2 py-1 border border-gray-50/10 rounded transition-all duration-200 ease-in-out shadow">
+        <p className="text-gray-50 font-semibold absolute z-10 top-0 left-8 bg-gray-950/50 px-2 py-1 border border-gray-50/10 rounded transition-all duration-200 ease-in-out shadow">
           Copied
-        </span>
+        </p>
       )}
     </div>
   );
