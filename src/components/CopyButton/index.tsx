@@ -20,7 +20,7 @@ export function CopyButton({ content }: CopyButtonProps) {
   return (
     <div className="relative">
       <button
-        className=" bg-gray-800 flex items-center justify-center border border-gray-50/10 h-6 w-6 rounded hover:opacity-75 active:opacity-50"
+        className=" bg-transparent flex items-center justify-center border border-gray-50/10 h-6 w-6 rounded hover:opacity-75 active:opacity-50"
         title="Copy URL"
         onClick={() => handleCopyURL()}
       >

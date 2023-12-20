@@ -12,7 +12,9 @@ interface ErrorState {
   message: string;
 }
 
-export default function ModCard({ modObj }: ModCardProps) {
+export default React.memo(ModCard);
+
+function ModCard({ modObj }: ModCardProps) {
   const [modItem, setModItem] = useState<ModObject | null>(null);
   const [error, setError] = useState<ErrorState | null>(null);
 

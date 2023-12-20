@@ -8,7 +8,7 @@ export function Input({ className, ...rest }: InputProps) {
     <input
       className={cn(
         className,
-        "px-4 py-2 rounded bg-gray-600 text-gray-50 focus:bg-red-800",
+        "px-4 py-2 rounded bg-gray-600 text-gray-50 border border-gray-500 focus:border-gray-800 focus:outline-gray-800",
       )}
       {...rest}
     />

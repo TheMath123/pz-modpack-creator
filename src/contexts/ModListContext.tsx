@@ -14,13 +14,14 @@ interface ModListContextProps {
   fillModData: (data: ModObject) => void;
   fetchModListData: (list: string) => void;
   saveList: () => void;
+  loading: boolean;
 }
 
 export const ModListContext = createContext({} as ModListContextProps);
 
 export function ModListProvider({ children }: { children: ReactNode }) {
   const [modList, setModList] = useState<ModObject[]>([]);
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     loadStorageList();
   }, []);
@@ -60,6 +61,7 @@ export function ModListProvider({ children }: { children: ReactNode }) {
 
       return newModList;
     });
+    saveList();
   }
 
   function fetchModListData(list: string) {
@@ -88,11 +90,14 @@ export function ModListProvider({ children }: { children: ReactNode }) {
       .catch((error) => {
         console.error(error);
       });
+
+    setLoading(false);
   }
 
   return (
     <ModListContext.Provider
       value={{
+        loading,
         modList,
         fillModData,
         fetchModListData,
