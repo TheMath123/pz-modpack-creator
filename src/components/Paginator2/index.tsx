@@ -46,61 +46,63 @@ export function Paginator2({
   }
 
   return (
-    <div
-      className={cn(
-        className,
-        "flex flex-row gap-[1px] border border-gray-500 h-fit bg-gray-500 rounded overflow-hidden w-fit",
-      )}
-      {...rest}
-    >
-      <button
-        disabled={currentPage === 1}
+    <div className="w-full flex">
+      <div
         className={cn(
-          "w-8 h-8 min-w-[32px] flex items-center justify-center text-gray-600 bg-slate-50",
-          "transition-all duration-300",
-          "hover:brightness-75 active:brightness-50",
-          "disabled:brightness-100",
+          className,
+          "flex flex-row gap-[1px] border border-gray-500 h-fit bg-gray-500 rounded overflow-hidden w-fit",
         )}
-        onClick={() => onChangePage(Math.max(1, currentPage - 1))}
+        {...rest}
       >
-        <ChevronLeftIcon />
-      </button>
-
-      {visiblePages.map((page, index) => (
         <button
-          key={
-            index === 1 || index === visiblePages.length - 2
-              ? `ellipsis-${index}`
-              : `btnPage${page}`
-          }
+          disabled={currentPage === 1}
           className={cn(
-            currentPage === page
-              ? "text-gray-50 bg-slate-600"
-              : "text-gray-600 bg-slate-50",
-            "w-8 h-8 min-w-[32px]",
-            typeof page === "string" ? "cursor-default" : "",
+            "w-8 h-8 min-w-[32px] flex items-center justify-center text-gray-600 bg-slate-50",
             "transition-all duration-300",
             "hover:brightness-75 active:brightness-50",
+            "disabled:brightness-100",
           )}
-          onClick={() => typeof page === "number" && onChangePage(page)}
-          disabled={typeof page === "string"}
+          onClick={() => onChangePage(Math.max(1, currentPage - 1))}
         >
-          {page}
+          <ChevronLeftIcon />
         </button>
-      ))}
 
-      <button
-        disabled={currentPage === pagesAmount}
-        className={cn(
-          "w-8 h-8 min-w-[32px] flex items-center justify-center text-gray-600 bg-slate-50",
-          "transition-all duration-300",
-          "hover:brightness-75 active:brightness-50",
-          "disabled:brightness-100",
-        )}
-        onClick={() => onChangePage(Math.min(pagesAmount, currentPage + 1))}
-      >
-        <ChevronRightIcon />
-      </button>
+        {visiblePages.map((page, index) => (
+          <button
+            key={
+              index === 1 || index === visiblePages.length - 2
+                ? `ellipsis-${index}`
+                : `btnPage${page}`
+            }
+            className={cn(
+              currentPage === page
+                ? "text-gray-50 bg-slate-600"
+                : "text-gray-600 bg-slate-50",
+              "w-8 h-8",
+              typeof page === "string" ? "cursor-default" : "",
+              "transition-all duration-300",
+              "hover:brightness-75 active:brightness-50",
+            )}
+            onClick={() => typeof page === "number" && onChangePage(page)}
+            disabled={typeof page === "string"}
+          >
+            {page}
+          </button>
+        ))}
+
+        <button
+          disabled={currentPage === pagesAmount}
+          className={cn(
+            "w-8 h-8 min-w-[32px] flex items-center justify-center text-gray-600 bg-slate-50",
+            "transition-all duration-300",
+            "hover:brightness-75 active:brightness-50",
+            "disabled:brightness-100",
+          )}
+          onClick={() => onChangePage(Math.min(pagesAmount, currentPage + 1))}
+        >
+          <ChevronRightIcon />
+        </button>
+      </div>
     </div>
   );
 }
