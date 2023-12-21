@@ -50,7 +50,13 @@ export function ModCard({ modId }: ModCardProps) {
   }
 
   return (
-    <main className="border border-gray-50 rounded p-4 w-full flex flex-col gap-4 shadow bg-gray-950 items-start">
+    <main className="border border-gray-50 rounded p-4 w-full flex flex-col gap-4 shadow bg-gray-950 items-start relative">
+      <input
+        type="checkbox"
+        className={cn(
+          "absolute top-4 right-4 h-5 w-5 accent-green-500 border-gray-200 border rounded",
+        )}
+      />
       <div className="flex flex-col md:flex-row gap-4 md:items-center items-start w-full">
         <div className="flex w-40 h-40 overflow-hidden rounded border border-gray-50">
           {modItem.imageURL && (
