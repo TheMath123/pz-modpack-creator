@@ -5,7 +5,7 @@ import { Loading, CopyButton, Accordion } from "..";
 import { cn } from "@/utils/cn";
 
 interface ModCardProps {
-  modId: number;
+  modId: number | string;
 }
 
 interface ErrorState {
@@ -17,10 +17,7 @@ export function ModCard({ modId }: ModCardProps) {
   const [error, setError] = useState<ErrorState | null>(null);
 
   useEffect(() => {
-    const itemUrl = encodeURIComponent(
-      `https://steamcommunity.com/sharedfiles/filedetails/?id=${modId}`,
-    );
-    const fetchUrl = `/api/metadata?url=${itemUrl}`;
+    const fetchUrl = `/api/metadata?mod_id=${modId}`;
 
     fetch(fetchUrl)
       .then((response) => {
@@ -57,7 +54,7 @@ export function ModCard({ modId }: ModCardProps) {
   }
 
   return (
-    <main className="max-w-4xl border border-gray-50 rounded p-4 w-full flex flex-col gap-4 shadow bg-gray-950 items-start">
+    <main className="border border-gray-50 rounded p-4 w-full flex flex-col gap-4 shadow bg-gray-950 items-start">
       <div className="flex flex-col md:flex-row gap-4 md:items-center items-start">
         <div className="flex w-40 h-40 overflow-hidden rounded border border-gray-50">
           {modItem.imageURL && (

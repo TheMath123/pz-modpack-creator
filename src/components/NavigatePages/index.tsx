@@ -19,7 +19,7 @@ export function NavigatePages({
     <div
       className={cn(
         className,
-        "flex flex-row gap-[1px] border border-gray-500 bg-gray-500 rounded overflow-hidden",
+        "flex flex-row gap-[1px] border border-gray-500 h-fit bg-gray-500 rounded overflow-hidden",
       )}
       {...rest}
     >
@@ -30,7 +30,7 @@ export function NavigatePages({
             currentPage === index
               ? "text-gray-50 bg-slate-600"
               : "text-gray-600 bg-slate-50",
-            "w-8 h-8",
+            "w-8 h-8 min-w-[32px]",
             "transition-all duration-300",
             "hover:brightness-75 active:brightness-50",
           )}

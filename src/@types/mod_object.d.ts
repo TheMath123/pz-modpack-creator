@@ -7,4 +7,5 @@ interface ModObject {
   workshop_id?: number;
   mod_id: string[] | null;
   map_folder?: string[] | null;
+  error?: string | null;
 }

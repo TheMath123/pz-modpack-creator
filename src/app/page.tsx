@@ -1,33 +1,24 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { Input, ModCard } from "@/components";
+import { useMemo, useState, useEffect } from "react";
+import { Input, ModCard, NavigatePages } from "@/components";
 import { useModList } from "../contexts/ModListContext";
-import { ArrowUpIcon } from "@primer/octicons-react";
-import colors from "tailwindcss/colors";
-import { LocalStorage } from "@/infra/LocalStorage";
-import React from "react";
-import { NavigatePages } from "../components/NavigatePages";
-
-const list = "";
+import list from "@/assets/list.json";
+import { paginate } from "@/helpers/paginate";
 
 export default function Home() {
-  const { modList, loading } = useModList();
+  const { modList, loading, fillModListWithStringList } = useModList();
   const [search, setSearch] = useState("");
   const [maxItemPerPage, setMaxItemPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(0);
 
-  const paginateArray = (array: any[], pageSize: number) => {
-    const pages = [];
+  const pages = paginate(modList, maxItemPerPage);
 
-    for (let i = 0; i < array.length; i += pageSize) {
-      pages.push(array.slice(i, i + pageSize));
-    }
+  useEffect(() => {
+    fillModListWithStringList(list.list);
+  }, []);
 
-    return pages;
-  };
-
-  const pages = paginateArray(modList, maxItemPerPage);
+  console.log(pages);
 
   const filteredModList = useMemo(() => {
     return modList.filter((mod) =>
@@ -51,7 +42,7 @@ export default function Home() {
             {modList.length}
           </h2>
           <NavigatePages
-            pagesAmount={paginateArray.length}
+            pagesAmount={pages.length}
             currentPage={currentPage}
             onChangePage={setCurrentPage}
           />
@@ -59,16 +50,10 @@ export default function Home() {
       </header>
       <div className="flex flex-col gap-4">
         {pages.length > 0 &&
-          pages[currentPage].map((workshop_id) => (
-            <ModCard key={workshop_id} modId={workshop_id} />
+          pages[currentPage].map((item) => (
+            <ModCard key={item.workshop_id} modId={item.workshop_id} />
           ))}
       </div>
-      {/* <a
-        href={"#top"}
-        className="fixed h-8 w-8 bg-gray-800 border border-gray-50/10 rounded-full flex items-center justify-center z-10 bottom-8 right-8 cursor-pointer hover:bg-gray-800/75 active:bg-gray-800/50"
-      >
-        <ArrowUpIcon fill={colors.gray[50]} size={28} />
-      </a> */}
     </main>
   );
 }

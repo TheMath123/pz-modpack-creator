@@ -2,12 +2,14 @@ import { NextResponse, NextRequest } from "next/server";
 import axios from "axios";
 import * as cheerio from "cheerio";
 import { findInfo } from "@/helpers/findInfo";
+import { title } from "process";
+import error from "next/error";
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
-  const itemURL = searchParams.get("url");
+  const modId = searchParams.get("mod_id");
 
-  if (typeof itemURL !== "string") {
+  if (typeof modId !== "string") {
     return NextResponse.json(
       { error: "URL must be a string" },
       { status: 400 },
@@ -15,7 +17,11 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const modObject = fetchWorkshopInfo(itemURL);
+    const modObject = await fetchWorkshopInfo(modId);
+
+    if (modObject.error) {
+      return NextResponse.json({ error: modObject.error }, { status: 404 });
+    }
 
     return NextResponse.json(modObject, { status: 200 });
   } catch (error) {
@@ -69,7 +75,10 @@ async function fetchWorkshopInfo(id: string) {
     $("title").text().replaceAll("Steam Workshop::", "");
 
   if (title === "Steam Community :: Error") {
-    throw new Error("Mod not found");
+    return {
+      workshop_id: id,
+      error: "Mod not found",
+    };
   }
 
   const metaDescription =
@@ -86,6 +95,7 @@ async function fetchWorkshopInfo(id: string) {
     imageURL: image,
     url: workshopUrl,
     ...modInfo,
+    error: null,
   };
 
   return modObject;

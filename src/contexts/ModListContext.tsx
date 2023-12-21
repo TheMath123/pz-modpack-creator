@@ -13,6 +13,7 @@ interface ModListContextProps {
   modList: ModObject[];
   fillModData: (data: ModObject) => void;
   fetchModListData: (list: string) => void;
+  fillModListWithStringList: (list: string) => void;
   saveList: () => void;
   loading: boolean;
 }
@@ -42,7 +43,6 @@ export function ModListProvider({ children }: { children: ReactNode }) {
       (item) => item.workshop_id === data.workshop_id,
     );
 
-    // Check if the id has already been registered
     if (verifyItemFilled?.title) {
       return;
     }
@@ -61,7 +61,22 @@ export function ModListProvider({ children }: { children: ReactNode }) {
 
       return newModList;
     });
-    saveList();
+  }
+
+  function fillModListWithStringList(list: string) {
+    setModList((currentModList) => {
+      const workshopIds = list.split(";").map((id) => parseInt(id, 10));
+
+      const newModObjects = workshopIds.reduce((newMods, id) => {
+        const exists = currentModList.some((mod) => mod.workshop_id === id);
+        if (!exists) {
+          newMods.push({ workshop_id: id, mod_id: null });
+        }
+        return newMods;
+      }, [] as ModObject[]);
+
+      return [...currentModList, ...newModObjects];
+    });
   }
 
   function fetchModListData(list: string) {
@@ -101,6 +116,7 @@ export function ModListProvider({ children }: { children: ReactNode }) {
         modList,
         fillModData,
         fetchModListData,
+        fillModListWithStringList,
         saveList,
       }}
     >
