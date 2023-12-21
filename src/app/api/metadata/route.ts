@@ -3,6 +3,30 @@ import axios from "axios";
 import * as cheerio from "cheerio";
 import { findInfo } from "@/helpers/findInfo";
 
+export async function GET(request: NextRequest) {
+  const searchParams = request.nextUrl.searchParams;
+  const itemURL = searchParams.get("url");
+
+  if (typeof itemURL !== "string") {
+    return NextResponse.json(
+      { error: "URL must be a string" },
+      { status: 400 },
+    );
+  }
+
+  try {
+    const modObject = fetchWorkshopInfo(itemURL);
+
+    return NextResponse.json(modObject, { status: 200 });
+  } catch (error) {
+    console.error("metadata API error:", error);
+    return NextResponse.json(
+      { error: "Error fetching metadata" },
+      { status: 500 },
+    );
+  }
+}
+
 export async function POST(request: NextRequest) {
   let body;
   try {
@@ -45,7 +69,7 @@ async function fetchWorkshopInfo(id: string) {
     $("title").text().replaceAll("Steam Workshop::", "");
 
   if (title === "Steam Community :: Error") {
-    return {};
+    throw new Error("Mod not found");
   }
 
   const metaDescription =
