@@ -11,7 +11,7 @@ export function ErrorCard({ title, description, id }: ErrorCardProps) {
   return (
     <div
       className={cn(
-        "border border-gray-50 rounded p-4 w-full max-w-4xl flex flex-col gap-4 shadow bg-gray-950 items-start text-gray-50",
+        "border border-gray-50 rounded p-4 w-full flex flex-col gap-4 shadow bg-gray-950 items-start text-gray-50",
       )}
     >
       <div className="flex flex-col gap-4 items-start">

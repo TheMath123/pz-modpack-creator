@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { Loading, CopyButton, Accordion } from "..";
+import { Loading, CopyButton, Accordion, ErrorCard } from "..";
 import { cn } from "@/utils/cn";
 
 interface ModCardProps {
@@ -42,11 +42,8 @@ export function ModCard({ modId }: ModCardProps) {
   }, [modId]);
 
   if (error) {
-    return (
-      <div>
-        <p>Error: {error.message}</p>
-      </div>
-    );
+    const msg = JSON.parse(error.message).error;
+    return <ErrorCard title={msg} id={modId} />;
   }
 
   if (!modItem) {

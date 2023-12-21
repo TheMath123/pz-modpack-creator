@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState, useEffect } from "react";
-import { Input, ModCard, NavigatePages } from "@/components";
+import { Input, ModCard, Paginator } from "@/components";
 import { useModList } from "../contexts/ModListContext";
 import list from "@/assets/list.json";
 import { paginate } from "@/helpers/paginate";
@@ -10,7 +10,7 @@ export default function Home() {
   const { modList, loading, fillModListWithStringList } = useModList();
   const [search, setSearch] = useState("");
   const [maxItemPerPage, setMaxItemPerPage] = useState(5);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const pages = paginate(modList, maxItemPerPage);
 
@@ -41,7 +41,7 @@ export default function Home() {
             <strong>Number of mods: </strong>
             {modList.length}
           </h2>
-          <NavigatePages
+          <Paginator
             pagesAmount={pages.length}
             currentPage={currentPage}
             onChangePage={setCurrentPage}
@@ -51,7 +51,7 @@ export default function Home() {
       <div className="flex flex-col gap-4">
         {pages.length > 0 &&
           pages[currentPage].map((item) => (
-            <ModCard key={item.workshop_id} modId={item.workshop_id} />
+            <ModCard key={item.workshop_id} modId={item.workshop_id!} />
           ))}
       </div>
     </main>
