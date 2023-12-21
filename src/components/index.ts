@@ -6,4 +6,5 @@ export * from "./Mark";
 export * from "./CopyButton";
 export * from "./ErrorCard";
 export * from "./Paginator";
+export * from "./Paginator2";
 export * from "./Input";
