@@ -49,7 +49,7 @@ export function Paginator2({
     <div
       className={cn(
         className,
-        "flex flex-row gap-[1px] border border-gray-500 h-fit bg-gray-500 rounded overflow-hidden",
+        "flex flex-row gap-[1px] border border-gray-500 h-fit bg-gray-500 rounded overflow-hidden w-fit",
       )}
       {...rest}
     >

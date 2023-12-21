@@ -34,13 +34,13 @@ export default function Home() {
           value={search}
           placeholder="Search Mod Name..."
         />
-        <div className="flex flex-row justify-between gap-2">
+        <div className="flex flex-col lg:flex-row justify-between gap-2">
           <h2 className="text-gray-50">
             <strong>Number of mods: </strong>
             {modList.length}
           </h2>
           <Paginator2
-            pagesAmount={pages.length}
+            pagesAmount={pages.length - 1}
             currentPage={currentPage}
             onChangePage={setCurrentPage}
           />
