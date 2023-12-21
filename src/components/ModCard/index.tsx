@@ -29,7 +29,6 @@ export function ModCard({ modId }: ModCardProps) {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         setModItem(data);
         setError(null);
       })
@@ -52,7 +51,7 @@ export function ModCard({ modId }: ModCardProps) {
 
   return (
     <main className="border border-gray-50 rounded p-4 w-full flex flex-col gap-4 shadow bg-gray-950 items-start">
-      <div className="flex flex-col md:flex-row gap-4 md:items-center items-start">
+      <div className="flex flex-col md:flex-row gap-4 md:items-center items-start w-full">
         <div className="flex w-40 h-40 overflow-hidden rounded border border-gray-50">
           {modItem.imageURL && (
             <Image
@@ -63,7 +62,7 @@ export function ModCard({ modId }: ModCardProps) {
             />
           )}
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 w-full">
           <h1 className="text-gray-50 font-medium">{modItem.title}</h1>
           {modItem.description && (
             <p className="text-gray-50 font-medium">{modItem.description}</p>
@@ -93,7 +92,7 @@ export function ModCard({ modId }: ModCardProps) {
               />
             </p>
           )}
-          <div className="flex flex-row gap-2">
+          <div className="flex flex-row gap-2 w-full">
             <Link
               target="_blank"
               href={modItem.url ?? ""}

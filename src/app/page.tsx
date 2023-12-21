@@ -7,18 +7,16 @@ import list from "@/assets/list.json";
 import { paginate } from "@/helpers/paginate";
 
 export default function Home() {
-  const { modList, loading, fillModListWithStringList } = useModList();
+  const { modList, fillModListWithStringList } = useModList();
   const [search, setSearch] = useState("");
   const [maxItemPerPage, setMaxItemPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
-
-  const pages = paginate(modList, maxItemPerPage);
 
   useEffect(() => {
     fillModListWithStringList(list.list);
   }, []);
 
-  console.log(pages);
+  const pages = paginate(modList, maxItemPerPage);
 
   const filteredModList = useMemo(() => {
     return modList.filter((mod) =>
