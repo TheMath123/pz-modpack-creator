@@ -5,6 +5,7 @@ import { Input, ModCard, Paginator } from "@/components";
 import { useModList } from "../contexts/ModListContext";
 import list from "@/assets/list.json";
 import { paginate } from "@/helpers/paginate";
+import { cn } from "../utils/cn";
 
 export default function Home() {
   const { modList, fillModListWithStringList } = useModList();
@@ -28,22 +29,40 @@ export default function Home() {
     <main id="top" className="flex flex-col p-4 lg:p-8 gap-8">
       <header className="flex flex-col gap-4">
         <h1 className="text-gray-50 font-bold text-lg">Mod List</h1>
-        <Input
+        {/* <Input
           className="max-w-sm"
           onChange={(e) => setSearch(e.target.value)}
           value={search}
           placeholder="Search Mod Name..."
-        />
+        /> */}
         <div className="flex flex-col lg:flex-row justify-between gap-4 lg:items-center items-start">
           <h2 className="text-gray-50">
             <strong>Number of mods: </strong>
             {modList.length}
           </h2>
-          <Paginator
-            pagesAmount={pages.length - 1}
-            currentPage={currentPage}
-            onChangePage={setCurrentPage}
-          />
+
+          <div className="flex flex-row gap-4">
+            <select
+              name="chosenMaxPage"
+              id="chosenMaxPage"
+              className={cn(
+                "border border-gray-50 bg-gray-300 text-slate-900 text-center rounded px-1",
+              )}
+              onChange={(e) => setMaxItemPerPage(Number(e.target.value))}
+            >
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+
+            <Paginator
+              pagesAmount={pages.length - 1}
+              currentPage={currentPage}
+              onChangePage={setCurrentPage}
+            />
+          </div>
         </div>
       </header>
       <div className="flex flex-col gap-4">

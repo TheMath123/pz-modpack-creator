@@ -45,7 +45,7 @@ export function Paginator({
     const listLength = pagesList.length;
 
     // Sempre incluir a primeira página
-    pageItems.push(renderButton(0));
+    listLength !== 1 && pageItems.push(renderButton(0));
 
     // Adicionando reticências iniciais se necessário
     if (currentPage > 3) {
@@ -68,7 +68,9 @@ export function Paginator({
 
     // Adicionando botões de páginas intermediárias
     for (let i = startRange; i <= endRange; i++) {
-      pageItems.push(renderButton(i));
+      if (i > 0) {
+        pageItems.push(renderButton(i));
+      }
     }
 
     // Adicionando reticências finais se necessário
