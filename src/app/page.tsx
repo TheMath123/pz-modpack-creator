@@ -25,7 +25,7 @@ export default function Home() {
   }, [search, modList]);
 
   return (
-    <main id="top" className="flex flex-col p-8 gap-8">
+    <main id="top" className="flex flex-col p-4 lg:p-8 gap-8">
       <header className="flex flex-col gap-4">
         <h1 className="text-gray-50 font-bold text-lg">Mod List</h1>
         <Input
@@ -34,7 +34,7 @@ export default function Home() {
           value={search}
           placeholder="Search Mod Name..."
         />
-        <div className="flex flex-col lg:flex-row justify-between gap-2">
+        <div className="flex flex-col lg:flex-row justify-between gap-4 lg:items-center items-start">
           <h2 className="text-gray-50">
             <strong>Number of mods: </strong>
             {modList.length}

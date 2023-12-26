@@ -47,10 +47,12 @@ export function Accordion({
       <article
         className={cn(
           isOpen ? "flex" : "hidden",
-          "text-gray-50 p-4 bg-gray-800 rounded",
+          "text-gray-50 p-2 lg:p-4 bg-gray-800 rounded w-full",
         )}
       >
-        {html ? <RawHTML html={children as string} /> : children}
+        <div className="flex w-full overflow-x-scroll">
+          {html ? <RawHTML html={children as string} /> : children}
+        </div>
       </article>
     </div>
   );
