@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState, useEffect } from "react";
-import { Input, ModCard, Paginator, Paginator2 } from "@/components";
+import { Input, ModCard, Paginator } from "@/components";
 import { useModList } from "../contexts/ModListContext";
 import list from "@/assets/list.json";
 import { paginate } from "@/helpers/paginate";
@@ -39,7 +39,7 @@ export default function Home() {
             <strong>Number of mods: </strong>
             {modList.length}
           </h2>
-          <Paginator2
+          <Paginator
             pagesAmount={pages.length - 1}
             currentPage={currentPage}
             onChangePage={setCurrentPage}
