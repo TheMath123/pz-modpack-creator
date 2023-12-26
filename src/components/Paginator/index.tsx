@@ -85,7 +85,7 @@ export function Paginator({
   }, [currentPage, pagesList.length, renderButton, renderEllipsis]);
 
   return (
-    <div className="flex w-fit">
+    <div className={cn(className, "flex w-fit")}>
       <div
         className={cn(
           className,

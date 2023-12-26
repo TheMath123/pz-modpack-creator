@@ -12,10 +12,12 @@ import { LocalStorage } from "@/infra/LocalStorage";
 interface ModListContextProps {
   modList: ModObject[];
   selectedMods: number[];
+  selectModCurrentPage: (mods: ModObject[]) => void;
+  selectAllMods: () => void;
   addModToSelectedList: (workshopId: string | number) => void;
   removeModToSelectedList: (workshopId: string | number) => void;
   clearSelectedList: () => void;
-  removeMods: (workshopIdInput: string | number[] | string[]) => void;
+  removeMods: (workshopIdInput: number | string | number[] | string[]) => void;
   fillModData: (data: ModObject) => void;
   fetchModListData: (list: string) => void;
   fillModListWithStringList: (list: string) => void;
@@ -66,26 +68,54 @@ export function ModListProvider({ children }: { children: ReactNode }) {
   function clearSelectedList() {
     setSelectedMods([]);
   }
+  function selectModCurrentPage(mods: ModObject[]) {
+    const newSelectedMods = mods.reduce(
+      (acc, mod) => {
+        if (mod.workshop_id && !selectedMods.includes(mod.workshop_id)) {
+          acc.push(mod.workshop_id);
+        }
+        return acc;
+      },
+      [...selectedMods],
+    );
+
+    setSelectedMods(newSelectedMods);
+  }
+  function selectAllMods() {
+    const allModIds = modList.reduce(
+      (acc, mod) => {
+        if (mod.workshop_id && !selectedMods.includes(mod.workshop_id)) {
+          acc.push(mod.workshop_id);
+        }
+        return acc;
+      },
+      [...selectedMods],
+    );
+
+    setSelectedMods(allModIds);
+  }
 
   // Filled modList
-  function removeMods(workshopIdInput: string | number[] | string[]) {
-    console.log("aqui");
+  function removeMods(workshopIdInput: number | string | number[] | string[]) {
     let workshopIds: string[];
 
     if (typeof workshopIdInput === "string") {
-      // Se for uma string, separar por ponto e vírgula e converter para array
+      // If it's a string, split by semicolon and convert to an array
       workshopIds = workshopIdInput.split(";");
+    } else if (typeof workshopIdInput === "number") {
+      // If it's a single number, convert to string and treat as an array with one element
+      workshopIds = [String(workshopIdInput)];
     } else {
-      // Se for um array (de números ou strings), converter todos os elementos para string
+      // If it's an array (of numbers or strings), convert all elements to string
       workshopIds = workshopIdInput.map(String);
     }
 
-    // Filtrar os mods que não estão na lista de workshopIds
+    // Filter out the mods that are not in the list of workshopIds
     const updatedModList = modList.filter(
       (mod) => !workshopIds.includes(String(mod.workshop_id)),
     );
 
-    // Atualizar o estado modList
+    // Update the modList state
     setModList(updatedModList);
   }
 
@@ -186,6 +216,8 @@ export function ModListProvider({ children }: { children: ReactNode }) {
         modList,
         removeMods,
         selectedMods,
+        selectModCurrentPage,
+        selectAllMods,
         addModToSelectedList,
         removeModToSelectedList,
         clearSelectedList,

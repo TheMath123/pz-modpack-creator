@@ -1,7 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect, ChangeEvent } from "react";
-import { Loading, CopyButton, Accordion, ErrorCard } from "..";
+import {
+  Loading,
+  CopyButton,
+  Accordion,
+  ErrorCard,
+  DeleteItemButton,
+} from "..";
 import { cn } from "@/utils/cn";
 import { useModList } from "../../contexts/ModListContext";
 
@@ -17,7 +23,12 @@ export function ModCard({ workshopId }: ModCardProps) {
   const [modItem, setModItem] = useState<ModObject | null>(null);
   const [error, setError] = useState<ErrorState | null>(null);
   const [cardSelected, setCardSelected] = useState(false);
-  const { addModToSelectedList, removeModToSelectedList } = useModList();
+  const {
+    addModToSelectedList,
+    removeModToSelectedList,
+    removeMods,
+    selectedMods,
+  } = useModList();
 
   useEffect(() => {
     const fetchUrl = `/api/metadata?mod_id=${workshopId}`;
@@ -65,14 +76,26 @@ export function ModCard({ workshopId }: ModCardProps) {
 
   return (
     <div className="border border-gray-50 rounded p-4 w-full flex flex-col gap-4 shadow bg-gray-950 items-start relative">
-      <input
-        type="checkbox"
-        checked={cardSelected}
-        onChange={handleChange}
-        className={cn(
-          "absolute top-4 right-4 h-5 w-5 accent-green-500 border-gray-200 border rounded",
-        )}
-      />
+      <div className="absolute top-4 right-4 flex flex-col gap-8 items-end">
+        <input
+          type="checkbox"
+          checked={
+            selectedMods.find((item) => item === workshopId) !== undefined
+          }
+          onChange={handleChange}
+          className={cn(
+            "h-5 w-5 accent-green-500 border-gray-200 border rounded",
+          )}
+        />
+        <DeleteItemButton
+          clean={true}
+          onClick={() => {
+            removeMods(workshopId);
+            removeModToSelectedList(workshopId);
+          }}
+        />
+      </div>
+
       <div className="flex flex-col md:flex-row gap-4 md:items-center items-start w-full">
         <div className="flex w-40 h-40 overflow-hidden rounded border border-gray-50">
           {modItem.imageURL && (
@@ -93,13 +116,15 @@ export function ModCard({ workshopId }: ModCardProps) {
 
           <div className="text-gray-50 font-medium flex flex-row gap-2">
             <strong>Workshop ID: </strong>
-            {modItem.workshop_id}{" "}
+            <p className="break-all w-full lg:w-fit">{modItem.workshop_id} </p>
             <CopyButton content={`${modItem.workshop_id}`} />
           </div>
 
           <div className="text-gray-50 font-medium flex flex-row gap-2">
             <strong>Mod ID: </strong>
-            {modItem.mod_id && modItem.mod_id.join("; ")}
+            <p className="break-all w-full lg:w-fit">
+              {modItem.mod_id && modItem.mod_id.join("; ")}
+            </p>
             <CopyButton
               content={`${modItem.mod_id && modItem.mod_id.join("; ")}`}
             />
@@ -108,7 +133,9 @@ export function ModCard({ workshopId }: ModCardProps) {
           {modItem.map_folder && (
             <div className="text-gray-50 font-medium flex flex-row gap-2">
               <strong>Map Folder: </strong>
-              {modItem.map_folder && modItem.map_folder.join("; ")}
+              <p className="break-all w-full lg:w-fit">
+                {modItem.map_folder && modItem.map_folder.join("; ")}
+              </p>
               <CopyButton
                 content={`${
                   modItem.map_folder && modItem.map_folder.join("; ")

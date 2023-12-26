@@ -4,16 +4,21 @@ import { cn } from "@/utils/cn";
 import colors from "tailwindcss/colors";
 
 interface DeleteItemButtonProps
-  extends ButtonHTMLAttributes<HTMLButtonElement> {}
+  extends ButtonHTMLAttributes<HTMLButtonElement> {
+  clean?: boolean;
+}
 export function DeleteItemButton({
   className,
+  clean = false,
   ...rest
 }: DeleteItemButtonProps) {
   return (
     <button
       className={cn(
         className,
-        "flex items-center justify-center bg-gray-300 w-8 h-8 rounded border border-gray-50",
+        clean
+          ? "border-none flex items-center justify-between rounded"
+          : "flex items-center justify-center bg-red-800 rounded border border-gray-50 w-8 h-8",
         "transition-all duration-300",
         "hover:opacity-75 active:opacity-50",
       )}
@@ -21,7 +26,10 @@ export function DeleteItemButton({
       aria-label="Remove items selecteds"
       {...rest}
     >
-      <TrashIcon fill={colors.slate[900]} />
+      <TrashIcon
+        fill={clean ? colors.red[800] : colors.gray[50]}
+        size={clean ? 20 : undefined}
+      />
     </button>
   );
 }

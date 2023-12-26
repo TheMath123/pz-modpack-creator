@@ -1,7 +1,15 @@
 "use client";
 
 import { useMemo, useState, useEffect } from "react";
-import { ModCard, Paginator, DeleteItemButton } from "@/components";
+import {
+  ModCard,
+  Paginator,
+  DeleteItemButton,
+  Input,
+  AddModButton,
+  Button,
+  DeselectedButton,
+} from "@/components";
 import { useModList } from "@/contexts/ModListContext";
 import list from "@/assets/list.json";
 import { paginate } from "@/helpers/paginate";
@@ -15,8 +23,12 @@ export default function Home() {
     selectedMods,
     removeMods,
     clearSelectedList,
+    addModToSelectedList,
+    selectAllMods,
+    selectModCurrentPage,
   } = useModList();
   const [search, setSearch] = useState("");
+  const [modsForAdd, setModsForAdd] = useState("");
   const [maxItemPerPage, setMaxItemPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(0);
 
@@ -32,24 +44,39 @@ export default function Home() {
     );
   }, [search, modList]);
 
+  function handleSelectPage() {
+    if (pages.length > 0 && pages[currentPage].length > 0)
+      selectModCurrentPage(pages[currentPage]);
+  }
+
   return (
     <main id="top" className="flex flex-col p-4 lg:p-8 gap-8">
       <header className="flex flex-col gap-4">
         <h1 className="text-gray-50 font-bold text-lg">Mod List</h1>
-        {/* <Input
-          className="max-w-sm"
-          onChange={(e) => setSearch(e.target.value)}
-          value={search}
-          placeholder="Search Mod Name..."
-        /> */}
-        <div className="flex flex-col lg:flex-row justify-between gap-4 lg:items-center items-start">
-          <h2 className="text-gray-50">
-            <strong>Number of mods: </strong>
-            {modList.length}
-          </h2>
+
+        <div className="grid grid-rows-3 lg:grid-cols-3 lg:grid-rows-1 gap-4 grid-flow-col items-center">
+          <div className="flex flex-row gap-4 items-center w-full lg:w-fit">
+            <Input
+              type="text"
+              className="lg:max-w-sm w-full"
+              onChange={(e) => setModsForAdd(e.target.value)}
+              value={modsForAdd}
+              placeholder="Enter workshop id"
+            />
+            <AddModButton />
+          </div>
+
+          <div className="flex flex-row gap-4">
+            <Button onClick={() => handleSelectPage()}>Select Page</Button>
+            <Button onClick={selectAllMods}>Select All</Button>
+          </div>
 
           {selectedMods.length > 0 ? (
-            <div className={"flex flex-row gap-4 items-center"}>
+            <div
+              className={
+                "flex flex-row gap-4 items-center order-last place-self-end"
+              }
+            >
               <h3 className="text-gray-50">
                 <strong>Mods selected: </strong>
                 {selectedMods.length}
@@ -61,37 +88,57 @@ export default function Home() {
                   clearSelectedList();
                 }}
               />
-              <button></button>
+
+              <DeselectedButton
+                onClick={() => {
+                  clearSelectedList();
+                }}
+              />
             </div>
           ) : null}
-
-          <div className="flex flex-row gap-4">
-            <select
-              name="chosenMaxPage"
-              id="chosenMaxPage"
-              className={cn(
-                "border border-gray-50 bg-gray-300 text-slate-900 text-center rounded px-1",
-              )}
-              onChange={(e) => {
-                let maxItem = e.target.value;
-                LocalStorage.set("max-item-per-page", maxItem);
-                setMaxItemPerPage(Number(maxItem));
-              }}
-            >
-              <option value="5">5</option>
-              <option value="10">10</option>
-              <option value="20">20</option>
-              <option value="50">50</option>
-              <option value="100">100</option>
-            </select>
-
-            <Paginator
-              pagesAmount={pages.length - 1}
-              currentPage={currentPage}
-              onChangePage={setCurrentPage}
-            />
-          </div>
         </div>
+
+        {modList.length > 0 ? (
+          <div className="grid grid-rows-3 lg:grid-cols-3 lg:grid-rows-1 gap-4 grid-flow-col w-full items-center">
+            <Input
+              className="max-w-sm"
+              onChange={(e) => setSearch(e.target.value)}
+              value={search}
+              placeholder="Search Mod Name..."
+            />
+            <h2 className="text-gray-50">
+              <strong>Number of mods: </strong>
+              {modList.length}
+            </h2>
+            <div className="flex flex-col lg:flex-row gap-4">
+              <select
+                name="chosenMaxPage"
+                id="chosenMaxPage"
+                className={cn(
+                  "border border-gray-50 bg-gray-300 text-slate-900 text-center rounded px-1 w-10 h-8",
+                )}
+                onChange={(e) => {
+                  let maxItem = e.target.value;
+                  LocalStorage.set("max-item-per-page", maxItem);
+                  setMaxItemPerPage(Number(maxItem));
+                }}
+              >
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+
+              <Paginator
+                className="place-self-end"
+                pagesAmount={pages.length - 1}
+                currentPage={currentPage}
+                onChangePage={setCurrentPage}
+              />
+            </div>
+          </div>
+        ) : null}
       </header>
       <div className="flex flex-col gap-4">
         {pages.length > 0 &&

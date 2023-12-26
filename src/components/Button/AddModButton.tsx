@@ -9,12 +9,12 @@ export function AddModButton({ className }: AddModButtonProps) {
     <button
       className={cn(
         className,
-        "flex items-center justify-center bg-gray-300 w-8 h-8 rounded border border-gray-50",
+        "flex items-center justify-center bg-gray-300 w-10 h-10 rounded border border-gray-50",
         "transition-all duration-300",
         "hover:opacity-75 active:opacity-50",
       )}
-      title="Remove items selecteds"
-      aria-label="Remove items selecteds"
+      title="Add Mods"
+      aria-label="Add Mods"
     >
       <PlusIcon fill={colors.slate[900]} />
     </button>

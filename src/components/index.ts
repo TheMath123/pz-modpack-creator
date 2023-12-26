@@ -6,6 +6,7 @@ export * from "./Mark";
 export * from "./CopyButton";
 export * from "./Button/DeleteItemButton";
 export * from "./Button/AddModButton";
+export * from "./Button/DeselectedButton";
 export * from "./ErrorCard";
 export * from "./Paginator";
 export * from "./Input";
