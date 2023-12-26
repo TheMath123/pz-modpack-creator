@@ -1,17 +1,18 @@
 "use client";
 
 import { useMemo, useState, useEffect } from "react";
-import { Input, ModCard, Paginator } from "@/components";
-import { useModList } from "../contexts/ModListContext";
+import { ModCard, Paginator, DeleteItemButton } from "@/components";
+import { useModList } from "@/contexts/ModListContext";
 import list from "@/assets/list.json";
 import { paginate } from "@/helpers/paginate";
-import { cn } from "../utils/cn";
+import { cn } from "@/utils/cn";
+import { LocalStorage } from "@/infra/LocalStorage";
 
 export default function Home() {
-  const { modList, fillModListWithStringList } = useModList();
+  const { modList, fillModListWithStringList, selectedMods } = useModList();
   const [search, setSearch] = useState("");
   const [maxItemPerPage, setMaxItemPerPage] = useState(5);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
 
   useEffect(() => {
     fillModListWithStringList(list.list);
@@ -41,6 +42,18 @@ export default function Home() {
             {modList.length}
           </h2>
 
+          {selectedMods.length > 0 ? (
+            <div className={"flex flex-row gap-4"}>
+              <h3 className="text-gray-50">
+                <strong>Mods selected: </strong>
+                {selectedMods.length}
+              </h3>
+
+              <DeleteItemButton />
+              <button></button>
+            </div>
+          ) : null}
+
           <div className="flex flex-row gap-4">
             <select
               name="chosenMaxPage"
@@ -48,7 +61,11 @@ export default function Home() {
               className={cn(
                 "border border-gray-50 bg-gray-300 text-slate-900 text-center rounded px-1",
               )}
-              onChange={(e) => setMaxItemPerPage(Number(e.target.value))}
+              onChange={(e) => {
+                let maxItem = e.target.value;
+                LocalStorage.set("max-item-per-page", maxItem);
+                setMaxItemPerPage(Number(maxItem));
+              }}
             >
               <option value="5">5</option>
               <option value="10">10</option>
@@ -68,7 +85,7 @@ export default function Home() {
       <div className="flex flex-col gap-4">
         {pages.length > 0 &&
           pages[currentPage].map((item) => (
-            <ModCard key={item.workshop_id} modId={item.workshop_id!} />
+            <ModCard key={item.workshop_id} workshopId={item.workshop_id!} />
           ))}
       </div>
     </main>
