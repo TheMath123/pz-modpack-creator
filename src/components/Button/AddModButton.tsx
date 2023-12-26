@@ -1,14 +1,10 @@
 import { ButtonHTMLAttributes } from "react";
-import { TrashIcon } from "@primer/octicons-react";
+import { PlusIcon } from "@primer/octicons-react";
 import { cn } from "@/utils/cn";
 import colors from "tailwindcss/colors";
 
-interface DeleteItemButtonProps
-  extends ButtonHTMLAttributes<HTMLButtonElement> {}
-export function DeleteItemButton({
-  className,
-  ...rest
-}: DeleteItemButtonProps) {
+interface AddModButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {}
+export function AddModButton({ className }: AddModButtonProps) {
   return (
     <button
       className={cn(
@@ -19,9 +15,8 @@ export function DeleteItemButton({
       )}
       title="Remove items selecteds"
       aria-label="Remove items selecteds"
-      {...rest}
     >
-      <TrashIcon fill={colors.slate[900]} />
+      <PlusIcon fill={colors.slate[900]} />
     </button>
   );
 }

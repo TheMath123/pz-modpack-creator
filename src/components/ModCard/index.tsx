@@ -17,7 +17,7 @@ export function ModCard({ workshopId }: ModCardProps) {
   const [modItem, setModItem] = useState<ModObject | null>(null);
   const [error, setError] = useState<ErrorState | null>(null);
   const [cardSelected, setCardSelected] = useState(false);
-  const { addModSelect, removeModSelect } = useModList();
+  const { addModToSelectedList, removeModToSelectedList } = useModList();
 
   useEffect(() => {
     const fetchUrl = `/api/metadata?mod_id=${workshopId}`;
@@ -57,11 +57,9 @@ export function ModCard({ workshopId }: ModCardProps) {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setCardSelected(e.target.checked);
     if (e.target.checked) {
-      console.log("Mod added ", workshopId);
-      addModSelect(workshopId);
+      addModToSelectedList(workshopId);
     } else {
-      console.log("Mod removed ", workshopId);
-      removeModSelect(workshopId);
+      removeModToSelectedList(workshopId);
     }
   };
 

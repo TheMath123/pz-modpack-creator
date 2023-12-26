@@ -9,7 +9,13 @@ import { cn } from "@/utils/cn";
 import { LocalStorage } from "@/infra/LocalStorage";
 
 export default function Home() {
-  const { modList, fillModListWithStringList, selectedMods } = useModList();
+  const {
+    modList,
+    fillModListWithStringList,
+    selectedMods,
+    removeMods,
+    clearSelectedList,
+  } = useModList();
   const [search, setSearch] = useState("");
   const [maxItemPerPage, setMaxItemPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(0);
@@ -43,13 +49,18 @@ export default function Home() {
           </h2>
 
           {selectedMods.length > 0 ? (
-            <div className={"flex flex-row gap-4"}>
+            <div className={"flex flex-row gap-4 items-center"}>
               <h3 className="text-gray-50">
                 <strong>Mods selected: </strong>
                 {selectedMods.length}
               </h3>
 
-              <DeleteItemButton />
+              <DeleteItemButton
+                onClick={() => {
+                  removeMods(selectedMods);
+                  clearSelectedList();
+                }}
+              />
               <button></button>
             </div>
           ) : null}
