@@ -11,6 +11,9 @@ import { LocalStorage } from "@/infra/LocalStorage";
 
 interface ModListContextProps {
   modList: ModObject[];
+  selectedMods: ModObject[];
+  addModSelect: (workshopId: string | number) => void;
+  removeModSelect: (workshopId: string | number) => void;
   fillModData: (data: ModObject) => void;
   fetchModListData: (list: string) => void;
   fillModListWithStringList: (list: string) => void;
@@ -22,10 +25,15 @@ export const ModListContext = createContext({} as ModListContextProps);
 
 export function ModListProvider({ children }: { children: ReactNode }) {
   const [modList, setModList] = useState<ModObject[]>([]);
+  const [selectedMods, setSelectedMods] = useState<number[]>([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     loadStorageList();
   }, []);
+
+  useEffect(() => {
+    console.log(selectedMods);
+  }, [selectedMods]);
 
   function saveList() {
     LocalStorage.set("list", JSON.stringify(modList));
@@ -38,6 +46,28 @@ export function ModListProvider({ children }: { children: ReactNode }) {
     }
   }
 
+  // Selected
+  function addModSelect(workshopId: string | number) {
+    const isExistMod = selectedMods.find((item) => item === workshopId);
+
+    console.log("[AddedMod] isExistMod:", isExistMod);
+
+    if (isExistMod) {
+      return;
+    }
+
+    let selectMod =
+      typeof workshopId === "string" ? Number(workshopId) : workshopId;
+
+    setSelectedMods([...selectedMods, selectMod]);
+  }
+
+  function removeModSelect(workshopId: string | number) {
+    const updatedMods = selectedMods.filter((item) => item !== workshopId);
+    setSelectedMods(updatedMods);
+  }
+
+  // Filled modList
   function fillModData(data: ModObject) {
     const verifyItemFilled = modList.find(
       (item) => item.workshop_id === data.workshop_id,
@@ -79,6 +109,7 @@ export function ModListProvider({ children }: { children: ReactNode }) {
     });
   }
 
+  // APIs
   function fetchModListData(list: string) {
     const fetchBody = {
       method: "POST",
@@ -109,11 +140,32 @@ export function ModListProvider({ children }: { children: ReactNode }) {
     setLoading(false);
   }
 
+  function fetchOneModData(workshopId: string | number) {
+    const fetchUrl = `/api/metadata?mod_id=${workshopId}`;
+
+    fetch(fetchUrl)
+      .then((response) => {
+        if (!response.ok) {
+          return response.text().then((text) => {
+            throw new Error(text || response.statusText);
+          });
+        }
+        return response.json();
+      })
+      .then((data) => {
+        fillModData(data);
+      })
+      .catch((error) => {});
+  }
+
   return (
     <ModListContext.Provider
       value={{
         loading,
         modList,
+        selectedMods,
+        addModSelect,
+        removeModSelect,
         fillModData,
         fetchModListData,
         fillModListWithStringList,
