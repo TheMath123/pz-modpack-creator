@@ -68,10 +68,10 @@ export default function Home() {
 
   return (
     <main id="top" className="flex flex-col p-4 lg:p-8 gap-8 relative">
-      <header className="flex flex-col gap-4 fixed z-30 bg-gray-900 inset-0 h-fit py-4 px-8">
+      <header className="flex flex-col gap-4 lg:fixed lg:z-30 bg-gray-900 lg:inset-0 h-fit lg:py-4 lg:px-8 w-full">
         <h1 className="text-gray-50 font-bold text-lg">Mod List</h1>
 
-        <div className="grid grid-rows-3 lg:grid-cols-3 lg:grid-rows-1 gap-4 grid-flow-col items-center">
+        <div className="flex lg:grid lg:grid-cols-3 flex-col lg:flex-row gap-4 grid-flow-col items-center lg:justify-between w-full">
           <div className="flex flex-row gap-4 items-center w-full lg:w-fit">
             <Input
               type="text"
@@ -83,7 +83,7 @@ export default function Home() {
             <AddModButton onClick={() => handlerAddMod()} />
           </div>
 
-          <div className="flex flex-row gap-4">
+          <div className="flex flex-col lg:flex-row gap-4 w-full">
             <Button
               onClick={() => {
                 LocalStorage.clear();
@@ -125,7 +125,7 @@ export default function Home() {
         </div>
 
         {modList.length > 0 ? (
-          <div className="grid grid-rows-3 lg:grid-cols-3 lg:grid-rows-1 gap-4 grid-flow-col w-full items-center">
+          <div className="flex flex-col lg:flex-row gap-4 grid-flow-col w-full lg:items-center lg:justify-between">
             <Input
               className="max-w-sm"
               onChange={(e) => setSearch(e.target.value)}
@@ -140,7 +140,7 @@ export default function Home() {
               {modList.length}
             </h2>
             {filteredModList.length > maxItemPerPage ? (
-              <div className="flex flex-col lg:flex-row gap-4 place-self-end">
+              <div className="flex flex-col lg:flex-row gap-4">
                 <select
                   name="chosenMaxPage"
                   id="chosenMaxPage"
@@ -171,7 +171,7 @@ export default function Home() {
           </div>
         ) : null}
       </header>
-      <div className="flex flex-col gap-4 mt-[172px]">
+      <div className="flex flex-col gap-4 lg:mt-[172px]">
         {pages.length > 0 &&
           pages[currentPage].map((item) => (
             <ModCard key={item.workshop_id} workshopId={item.workshop_id!} />
