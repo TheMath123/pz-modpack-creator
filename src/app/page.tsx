@@ -7,8 +7,9 @@ import {
   DeleteItemButton,
   Input,
   AddModButton,
-  Button,
   DeselectedButton,
+  DownloadButton,
+  Button,
 } from "@/components";
 import { useModList } from "@/contexts/ModListContext";
 import list from "@/assets/list.json";
@@ -85,6 +86,7 @@ export default function Home() {
           <div className="flex flex-row gap-4">
             <Button onClick={() => handleSelectPage()}>Select Page</Button>
             <Button onClick={selectAllMods}>Select All</Button>
+            <DownloadButton />
           </div>
 
           {selectedMods.length > 0 ? (
@@ -121,6 +123,9 @@ export default function Home() {
               onChange={(e) => setSearch(e.target.value)}
               value={search}
               placeholder="Search Workshop ID..."
+              onClearSearch={
+                search.length > 0 ? () => setSearch("") : undefined
+              }
             />
             <h2 className="text-gray-50">
               <strong>Number of mods: </strong>
@@ -149,7 +154,7 @@ export default function Home() {
                 </select>
 
                 <Paginator
-                  pagesAmount={pages.length - 1}
+                  pagesAmount={pages.length}
                   currentPage={currentPage}
                   onChangePage={setCurrentPage}
                 />

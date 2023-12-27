@@ -7,6 +7,7 @@ export * from "./CopyButton";
 export * from "./Button/DeleteItemButton";
 export * from "./Button/AddModButton";
 export * from "./Button/DeselectedButton";
+export * from "./Button/DownloadButton";
 export * from "./ErrorCard";
 export * from "./Paginator";
 export * from "./Input";

@@ -8,6 +8,13 @@ import {
   useState,
 } from "react";
 import { LocalStorage } from "@/infra/LocalStorage";
+import {
+  createIniFileContent,
+  generateMapFolderString,
+  generateModIdString,
+  generateWorkshopIdString,
+  getWorkshopIds,
+} from "../helpers/ModObject";
 
 interface ModListContextProps {
   modList: ModObject[];
@@ -19,10 +26,11 @@ interface ModListContextProps {
   clearSelectedList: () => void;
   removeMods: (workshopIdInput: number | string | number[] | string[]) => void;
   fillModData: (data: ModObject) => void;
-  fetchModListData: (list: string) => void;
   fillModListWithStringList: (list: string) => void;
   saveList: () => void;
   loading: boolean;
+  fetchModListData: (list: string | number[]) => Promise<void>;
+  generateFile: () => Promise<string>;
 }
 
 export const ModListContext = createContext({} as ModListContextProps);
@@ -34,6 +42,10 @@ export function ModListProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     loadStorageList();
   }, []);
+
+  useEffect(() => {
+    console.log(modList);
+  }, [modList]);
 
   function saveList() {
     LocalStorage.set("list", JSON.stringify(modList));
@@ -157,34 +169,40 @@ export function ModListProvider({ children }: { children: ReactNode }) {
   }
 
   // APIs
-  function fetchModListData(list: string) {
+  async function generateFile() {
+    const workshopIds = getWorkshopIds(modList);
+    await fetchModListData(workshopIds); // Espera a conclusão da chamada fetch
+    // Certifique-se de que modList esteja atualizado neste ponto
+    const iniFileContent = createIniFileContent(modList);
+    const blob = new Blob([iniFileContent], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    return url;
+  }
+
+  async function fetchModListData(list: string | number[]) {
     const fetchBody = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        mod_list: list.split(";"),
+        mod_list: typeof list === "string" ? list.split(";") : list,
       }),
     };
 
-    fetch("api/metadata", fetchBody)
-      .then((response) => {
-        if (!response.ok) {
-          return response.text().then((text) => {
-            throw new Error(text || response.statusText);
-          });
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setModList(data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-
-    setLoading(false);
+    try {
+      const response = await fetch("api/metadata", fetchBody);
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText || response.statusText);
+      }
+      const data = await response.json();
+      setModList(data);
+      return data; // Retorna os dados recebidos
+    } catch (error) {
+      console.error(error);
+      throw error; // Propaga o erro para ser tratado por quem chama a função
+    }
   }
 
   function fetchOneModData(workshopId: string | number) {
@@ -218,9 +236,10 @@ export function ModListProvider({ children }: { children: ReactNode }) {
         removeModToSelectedList,
         clearSelectedList,
         fillModData,
-        fetchModListData,
         fillModListWithStringList,
         saveList,
+        fetchModListData,
+        generateFile,
       }}
     >
       {children}
