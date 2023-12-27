@@ -68,7 +68,7 @@ export function Paginator({
 
     // Adicionando botões de páginas intermediárias
     for (let i = startRange; i <= endRange; i++) {
-      if (i > 0) {
+      if (i > 0 && i !== 0) {
         pageItems.push(renderButton(i));
       }
     }

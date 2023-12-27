@@ -23,7 +23,6 @@ export default function Home() {
     selectedMods,
     removeMods,
     clearSelectedList,
-    addModToSelectedList,
     selectAllMods,
     selectModCurrentPage,
   } = useModList();
@@ -36,22 +35,39 @@ export default function Home() {
     fillModListWithStringList(list.list);
   }, []);
 
-  const pages = paginate(modList, maxItemPerPage);
-
   const filteredModList = useMemo(() => {
-    return modList.filter((mod) =>
-      mod.title?.toLowerCase().includes(search.toLowerCase()),
-    );
+    const searchTerm = search.replaceAll(",", "").trim();
+
+    if (!searchTerm) {
+      return modList; // Retorna a lista inteira se a busca estiver vazia
+    }
+
+    return modList.filter((mod) => {
+      const workshopIdString = String(mod.workshop_id);
+      return workshopIdString.includes(searchTerm);
+    });
   }, [search, modList]);
+
+  const pages = paginate(
+    filteredModList.length > 0 ? filteredModList : modList,
+    maxItemPerPage,
+  );
 
   function handleSelectPage() {
     if (pages.length > 0 && pages[currentPage].length > 0)
       selectModCurrentPage(pages[currentPage]);
   }
 
+  function handlerAddMod() {
+    if (modsForAdd.trim().replaceAll(" ", ";").length >= 9) {
+      fillModListWithStringList(modsForAdd);
+      setModsForAdd("");
+    }
+  }
+
   return (
-    <main id="top" className="flex flex-col p-4 lg:p-8 gap-8">
-      <header className="flex flex-col gap-4">
+    <main id="top" className="flex flex-col p-4 lg:p-8 gap-8 relative">
+      <header className="flex flex-col gap-4 fixed z-30 bg-gray-900 inset-0 h-fit py-4 px-8">
         <h1 className="text-gray-50 font-bold text-lg">Mod List</h1>
 
         <div className="grid grid-rows-3 lg:grid-cols-3 lg:grid-rows-1 gap-4 grid-flow-col items-center">
@@ -63,7 +79,7 @@ export default function Home() {
               value={modsForAdd}
               placeholder="Enter workshop id"
             />
-            <AddModButton />
+            <AddModButton onClick={() => handlerAddMod()} />
           </div>
 
           <div className="flex flex-row gap-4">
@@ -104,43 +120,45 @@ export default function Home() {
               className="max-w-sm"
               onChange={(e) => setSearch(e.target.value)}
               value={search}
-              placeholder="Search Mod Name..."
+              placeholder="Search Workshop ID..."
             />
             <h2 className="text-gray-50">
               <strong>Number of mods: </strong>
               {modList.length}
             </h2>
-            <div className="flex flex-col lg:flex-row gap-4">
-              <select
-                name="chosenMaxPage"
-                id="chosenMaxPage"
-                className={cn(
-                  "border border-gray-50 bg-gray-300 text-slate-900 text-center rounded px-1 w-10 h-8",
-                )}
-                onChange={(e) => {
-                  let maxItem = e.target.value;
-                  LocalStorage.set("max-item-per-page", maxItem);
-                  setMaxItemPerPage(Number(maxItem));
-                }}
-              >
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="20">20</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-              </select>
+            {filteredModList.length > maxItemPerPage ? (
+              <div className="flex flex-col lg:flex-row gap-4 place-self-end">
+                <select
+                  name="chosenMaxPage"
+                  id="chosenMaxPage"
+                  className={cn(
+                    "border border-gray-50 bg-gray-300 text-slate-900 text-center rounded px-1 w-10 h-8",
+                  )}
+                  onChange={(e) => {
+                    let maxItem = e.target.value;
+                    LocalStorage.set("max-item-per-page", maxItem);
+                    setCurrentPage(0);
+                    setMaxItemPerPage(Number(maxItem));
+                  }}
+                >
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="20">20</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                </select>
 
-              <Paginator
-                className="place-self-end"
-                pagesAmount={pages.length - 1}
-                currentPage={currentPage}
-                onChangePage={setCurrentPage}
-              />
-            </div>
+                <Paginator
+                  pagesAmount={pages.length - 1}
+                  currentPage={currentPage}
+                  onChangePage={setCurrentPage}
+                />
+              </div>
+            ) : null}
           </div>
         ) : null}
       </header>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 mt-[172px]">
         {pages.length > 0 &&
           pages[currentPage].map((item) => (
             <ModCard key={item.workshop_id} workshopId={item.workshop_id!} />

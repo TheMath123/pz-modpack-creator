@@ -59,12 +59,10 @@ export function ModListProvider({ children }: { children: ReactNode }) {
 
     setSelectedMods([...selectedMods, selectMod]);
   }
-
   function removeModToSelectedList(workshopId: string | number) {
     const updatedMods = selectedMods.filter((item) => item !== workshopId);
     setSelectedMods(updatedMods);
   }
-
   function clearSelectedList() {
     setSelectedMods([]);
   }
@@ -118,7 +116,6 @@ export function ModListProvider({ children }: { children: ReactNode }) {
     // Update the modList state
     setModList(updatedModList);
   }
-
   function fillModData(data: ModObject) {
     const verifyItemFilled = modList.find(
       (item) => item.workshop_id === data.workshop_id,
@@ -143,7 +140,6 @@ export function ModListProvider({ children }: { children: ReactNode }) {
       return newModList;
     });
   }
-
   function fillModListWithStringList(list: string) {
     setModList((currentModList) => {
       const workshopIds = list.split(";").map((id) => parseInt(id, 10));

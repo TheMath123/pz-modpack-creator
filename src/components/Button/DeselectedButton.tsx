@@ -17,8 +17,8 @@ export function DeselectedButton({
         "transition-all duration-300",
         "hover:opacity-75 active:opacity-50",
       )}
-      title="Remove items selecteds"
-      aria-label="Remove items selecteds"
+      title="Deselect all"
+      aria-label="Deselect all"
       {...rest}
     >
       <XIcon fill={colors.slate[800]} />

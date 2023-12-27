@@ -4,7 +4,7 @@ import { cn } from "@/utils/cn";
 import colors from "tailwindcss/colors";
 
 interface AddModButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {}
-export function AddModButton({ className }: AddModButtonProps) {
+export function AddModButton({ className, ...props }: AddModButtonProps) {
   return (
     <button
       className={cn(
@@ -15,6 +15,7 @@ export function AddModButton({ className }: AddModButtonProps) {
       )}
       title="Add Mods"
       aria-label="Add Mods"
+      {...props}
     >
       <PlusIcon fill={colors.slate[900]} />
     </button>

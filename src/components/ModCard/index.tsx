@@ -76,7 +76,7 @@ export function ModCard({ workshopId }: ModCardProps) {
 
   return (
     <div className="border border-gray-50 rounded p-4 w-full flex flex-col gap-4 shadow bg-gray-950 items-start relative">
-      <div className="absolute top-4 right-4 flex flex-col gap-8 items-end">
+      <div className="absolute top-4 right-4 flex flex-col gap-4 items-end">
         <input
           type="checkbox"
           checked={
