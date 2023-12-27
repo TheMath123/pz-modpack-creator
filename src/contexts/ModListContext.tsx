@@ -8,13 +8,7 @@ import {
   useState,
 } from "react";
 import { LocalStorage } from "@/infra/LocalStorage";
-import {
-  createIniFileContent,
-  generateMapFolderString,
-  generateModIdString,
-  generateWorkshopIdString,
-  getWorkshopIds,
-} from "../helpers/ModObject";
+import { createIniFileContent, getWorkshopIds } from "../helpers/ModObject";
 
 interface ModListContextProps {
   modList: ModObject[];
@@ -27,7 +21,6 @@ interface ModListContextProps {
   removeMods: (workshopIdInput: number | string | number[] | string[]) => void;
   fillModData: (data: ModObject) => void;
   fillModListWithStringList: (list: string) => void;
-  saveList: () => void;
   loading: boolean;
   fetchModListData: (list: string | number[]) => Promise<void>;
   generateFile: () => Promise<string>;
@@ -44,12 +37,10 @@ export function ModListProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    console.log(modList);
+    if (modList.length > 0) {
+      LocalStorage.set("list", JSON.stringify(modList));
+    }
   }, [modList]);
-
-  function saveList() {
-    LocalStorage.set("list", JSON.stringify(modList));
-  }
 
   function loadStorageList() {
     const strList = LocalStorage.get("list");
@@ -237,7 +228,6 @@ export function ModListProvider({ children }: { children: ReactNode }) {
         clearSelectedList,
         fillModData,
         fillModListWithStringList,
-        saveList,
         fetchModListData,
         generateFile,
       }}

@@ -17,4 +17,10 @@ export class LocalStorage {
       localStorage.removeItem(key);
     }
   }
+
+  static clear() {
+    if (typeof Storage !== "undefined") {
+      localStorage.clear();
+    }
+  }
 }

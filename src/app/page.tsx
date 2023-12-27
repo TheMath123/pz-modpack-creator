@@ -84,6 +84,14 @@ export default function Home() {
           </div>
 
           <div className="flex flex-row gap-4">
+            <Button
+              onClick={() => {
+                LocalStorage.clear();
+                window.location.href = window.location.href;
+              }}
+            >
+              Reset Pack
+            </Button>
             <Button onClick={() => handleSelectPage()}>Select Page</Button>
             <Button onClick={selectAllMods}>Select All</Button>
             <DownloadButton />
