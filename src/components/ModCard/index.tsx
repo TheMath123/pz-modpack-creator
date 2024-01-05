@@ -142,7 +142,11 @@ export function ModCard({ workshopId }: ModCardProps) {
               <ul className="flex flex-col gap-2 pr-4 pl-8 py-2 bg-slate-900 rounded list-disc">
                 {modItem.modsRequirements.map((item, index) => (
                   <li key={"req" + item.id + item.name}>
-                    <a href={item.url} target="_blank" className="underline">
+                    <a
+                      href={item.url}
+                      target="_blank"
+                      className="text-sm underline"
+                    >
                       {item.name}
                     </a>
                   </li>
