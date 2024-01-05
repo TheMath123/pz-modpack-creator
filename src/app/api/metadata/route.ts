@@ -2,8 +2,6 @@ import { NextResponse, NextRequest } from "next/server";
 import axios from "axios";
 import * as cheerio from "cheerio";
 import { findInfo } from "@/helpers/findInfo";
-import { title } from "process";
-import error from "next/error";
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
@@ -81,11 +79,21 @@ async function fetchWorkshopInfo(id: string) {
     };
   }
 
+  const modsRequirements: {}[] = [];
+
   const metaDescription =
     $('meta[property="og:description"]').attr("content") ||
     $('meta[name="description"]').attr("content");
   const image = $('meta[property="og:image"]').attr("content");
   const rawDescription = $("#highlightContent").html();
+  $(".requiredItemsContainer a").each((index, element) => {
+    const url = $(element).attr("href");
+    const name = $(element).find(".requiredItem").text().trim();
+    const urlParams = new URL(url as string);
+    const id = urlParams.searchParams.get("id");
+
+    modsRequirements.push({ name, id, url });
+  });
   const modInfo = findInfo(rawDescription);
 
   const modObject = {
@@ -94,6 +102,7 @@ async function fetchWorkshopInfo(id: string) {
     rawDescription: rawDescription ? rawDescription : undefined,
     imageURL: image,
     url: workshopUrl,
+    modsRequirements: modsRequirements,
     ...modInfo,
     error: null,
   };

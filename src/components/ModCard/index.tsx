@@ -28,6 +28,7 @@ export function ModCard({ workshopId }: ModCardProps) {
     removeModToSelectedList,
     removeMods,
     selectedMods,
+    fillModListWithStringList,
   } = useModList();
 
   useEffect(() => {
@@ -45,6 +46,11 @@ export function ModCard({ workshopId }: ModCardProps) {
       .then((data) => {
         setModItem(data);
         setError(null);
+        if (data.modsRequirements && data.modsRequirements.length > 0) {
+          data.modsRequirements.forEach((item: any) =>
+            fillModListWithStringList(item.id),
+          );
+        }
       })
       .catch((error) => {
         setError({
@@ -129,6 +135,21 @@ export function ModCard({ workshopId }: ModCardProps) {
               content={`${modItem.mod_id && modItem.mod_id.join("; ")}`}
             />
           </div>
+
+          {modItem.modsRequirements && modItem.modsRequirements.length > 0 ? (
+            <div className="text-gray-50 flex flex-col gap-2 w-fit">
+              <h1 className="font-semibold">Required Mods:</h1>
+              <ul className="flex flex-col gap-2 pr-4 pl-8 py-2 bg-slate-900 rounded list-disc">
+                {modItem.modsRequirements.map((item, index) => (
+                  <li key={"req" + item.id + item.name}>
+                    <a href={item.url} target="_blank" className="underline">
+                      {item.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
 
           {modItem.map_folder && (
             <div className="text-gray-50 font-medium flex flex-row gap-2">
