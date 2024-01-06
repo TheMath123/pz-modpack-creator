@@ -50,6 +50,9 @@ export default function RootLayout({
           content="Generator and creator mod list for Project Zomboid"
         />
         <meta property="og:image" content="/mod-creator.png" />
+
+        <link rel="icon" href="/web/favicon.ico" sizes="any">
+        <link rel="apple-touch-icon" href="/web/apple-touch-icon.png"></link>
       </head>
       <ModListProvider>
         <body className={cn(inter.className, "bg-gray-900")}>{children}</body>
