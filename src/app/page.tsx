@@ -110,7 +110,7 @@ export default function Home() {
 
               <DeleteItemButton
                 onClick={() => {
-                  setCurrentPage(0);
+                  setCurrentPage(currentPage > 0 ? currentPage : 0);
                   removeMods(selectedMods);
                   clearSelectedList();
                 }}

@@ -10,16 +10,23 @@ export function findInfo(contentText: string | null): WorkshopInfo {
   }
 
   const workshopIdMatch = contentText.match(/Workshop ID:\s*(\d+)/);
-  const modIdMatches = [...contentText.matchAll(/Mod ID:\s*([\w]+)/g)].map(
-    (m) => m[1],
-  );
+
+  const modIdSet = new Set<string>();
+  [...contentText.matchAll(/Mod ID:\s*([\w\d%]+)/g)].forEach((match) => {
+    const modId = match[1];
+    if (typeof modId === "string") {
+      // Verifica e assegura que modId é uma string
+      modIdSet.add(modId);
+    }
+  });
+
   const mapFolderMatches = [
     ...contentText.matchAll(/Map Folder:\s*([\w\s]+)/g),
   ].map((m) => m[1]);
 
   return {
     workshop_id: workshopIdMatch ? parseInt(workshopIdMatch[1], 10) : null,
-    mod_id: modIdMatches.length > 0 ? modIdMatches : null,
+    mod_id: modIdSet.size > 0 ? Array.from(modIdSet) : null,
     map_folder: mapFolderMatches.length > 0 ? mapFolderMatches : null,
   };
 }
