@@ -16,6 +16,7 @@ import list from "@/assets/list.json";
 import { paginate } from "@/helpers/paginate";
 import { cn } from "@/utils/cn";
 import { LocalStorage } from "@/infra/LocalStorage";
+import { Metadata } from "next";
 
 export default function Home() {
   const {
@@ -110,6 +111,7 @@ export default function Home() {
 
               <DeleteItemButton
                 onClick={() => {
+                  setCurrentPage(0);
                   removeMods(selectedMods);
                   clearSelectedList();
                 }}

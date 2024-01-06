@@ -18,6 +18,39 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <meta property="og:type" content="website" />
+
+        <meta
+          name="description"
+          content="Generator and creator mod list for Project Zomboid"
+        />
+        <meta
+          name="keywords"
+          content="Mod, Project Zomboid, Creator, Mod PZ, PZ, Modpack, Steam, Workshop, Steam Workshop"
+        />
+
+        <meta name="twitter:card" content="summary" />
+        <meta
+          name="twitter:title"
+          content="Mod List Creator | Project Zomboid"
+        />
+        <meta
+          name="twitter:description"
+          content="Generator and creator mod list for Project Zomboid"
+        />
+        <meta name="twitter:image" content="URL da Imagem em Miniatura" />
+
+        <meta
+          property="og:title"
+          content="Mod List Creator | Project Zomboid"
+        />
+        <meta
+          property="og:description"
+          content="Generator and creator mod list for Project Zomboid"
+        />
+        <meta property="og:image" content="/mod-creator.png" />
+      </head>
       <ModListProvider>
         <body className={cn(inter.className, "bg-gray-900")}>{children}</body>
       </ModListProvider>
