@@ -51,8 +51,8 @@ export default function RootLayout({
         />
         <meta property="og:image" content="/mod-creator.png" />
 
-        <link rel="icon" href="/web/favicon.ico" sizes="any">
-        <link rel="apple-touch-icon" href="/web/apple-touch-icon.png"></link>
+        <link rel="icon" href="/web/favicon.ico" sizes="any" />
+        <link rel="apple-touch-icon" href="/web/apple-touch-icon.png" />
       </head>
       <ModListProvider>
         <body className={cn(inter.className, "bg-gray-900")}>{children}</body>
