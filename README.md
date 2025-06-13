@@ -62,11 +62,3 @@ With the application running, you can:
 ## Contributions
 
 Contributions are welcome! Please fork the repository and submit pull requests for improvements or new features.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
-
-## Contact
-
-For any questions or feedback, you can contact me on X: [@themat_123](https://x.com/themat_123)
