@@ -1,8 +1,8 @@
-import { cn } from "@/utils/cn";
-import { CopyButton } from "../CopyButton";
-import { DeleteItemButton } from "..";
 import { useModList } from "@/contexts/ModListContext";
+import { cn } from "@/utils/cn";
 import { ChangeEvent, useState } from "react";
+import { DeleteItemButton } from "..";
+import { CopyButton } from "../CopyButton";
 
 interface ErrorCardProps {
   title: string;
@@ -31,7 +31,7 @@ export function ErrorCard({ title, description, id }: ErrorCardProps) {
   return (
     <div
       className={cn(
-        "border border-gray-50 rounded p-4 w-full flex flex-col gap-4 shadow bg-gray-950 items-start text-gray-50 relative",
+        "border border-gray-50/30 rounded-sm p-4 w-full flex flex-col gap-4 shadow-sm bg-gray-950 items-start text-gray-50 relative",
       )}
     >
       <div className="flex flex-col gap-4 items-start">
@@ -41,7 +41,7 @@ export function ErrorCard({ title, description, id }: ErrorCardProps) {
             checked={selectedMods.find((item) => item === id) !== undefined}
             onChange={handleChange}
             className={cn(
-              "h-5 w-5 accent-green-500 border-gray-200 border rounded",
+              "h-5 w-5 accent-green-500 border-gray-200/30 border rounded-sm",
             )}
           />
           <DeleteItemButton

@@ -1,21 +1,21 @@
 "use client";
 
-import { useMemo, useState, useEffect } from "react";
+import list from "@/assets/list.json";
 import {
-  ModCard,
-  Paginator,
-  DeleteItemButton,
-  Input,
   AddModButton,
+  Button,
+  DeleteItemButton,
   DeselectedButton,
   DownloadButton,
-  Button,
+  Input,
+  ModCard,
+  Paginator,
 } from "@/components";
 import { useModList } from "@/contexts/ModListContext";
-import list from "@/assets/list.json";
 import { paginate } from "@/helpers/paginate";
-import { cn } from "@/utils/cn";
 import { LocalStorage } from "@/infra/LocalStorage";
+import { cn } from "@/utils/cn";
+import { useEffect, useMemo, useState } from "react";
 
 export default function Home() {
   const {
@@ -128,25 +128,29 @@ export default function Home() {
         {modList.length > 0 ? (
           <div className="flex flex-col lg:flex-row gap-4 grid-flow-col w-full lg:items-center lg:justify-between">
             <Input
-              className="max-w-sm"
+              type="search"
+              className="w-full md:max-w-sm"
               onChange={(e) => setSearch(e.target.value)}
               value={search}
               placeholder="Search Workshop ID..."
               onClearSearch={
                 search.length > 0 ? () => setSearch("") : undefined
               }
-            />
+              />
+       
             <h2 className="text-gray-50">
               <strong>Number of mods: </strong>
               {modList.length}
             </h2>
             {filteredModList.length > maxItemPerPage ? (
               <div className="flex flex-col lg:flex-row gap-4">
+                <div className="flex flex-row gap-2 items-center">
+                  <label htmlFor="chosenMaxPage" className="text-gray-50">Itens per page</label>
                 <select
                   name="chosenMaxPage"
                   id="chosenMaxPage"
                   className={cn(
-                    "border border-gray-50 bg-gray-300 text-slate-900 text-center rounded px-1 w-10 h-8",
+                    "border border-gray-50/30 bg-gray-300 text-slate-900 text-center rounded-sm px-1 w-10 h-8 hover:cursor-pointer",
                   )}
                   onChange={(e) => {
                     let maxItem = e.target.value;
@@ -161,6 +165,7 @@ export default function Home() {
                   <option value="50">50</option>
                   <option value="100">100</option>
                 </select>
+                </div>
 
                 <Paginator
                   pagesAmount={pages.length}

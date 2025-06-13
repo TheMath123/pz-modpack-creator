@@ -1,7 +1,6 @@
-import { HTMLAttributes, Key, useCallback, useMemo } from "react";
 import { cn } from "@/utils/cn";
-import { ChevronRightIcon, ChevronLeftIcon } from "@primer/octicons-react";
-import colors from "tailwindcss/colors";
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+import { HTMLAttributes, Key, useCallback, useMemo } from "react";
 import { ButtonPage } from "./components/ButtonPage";
 
 interface PaginatorProps extends HTMLAttributes<HTMLElement> {
@@ -89,7 +88,7 @@ export function Paginator({
       <div
         className={cn(
           className,
-          "flex h-fit w-fit flex-row gap-[1px] overflow-hidden rounded border border-gray-50 bg-gray-50 shadow-sm",
+          "flex h-fit w-fit flex-row gap-px overflow-hidden rounded-sm border border-gray-50/30 bg-gray-50 shadow-xs",
         )}
         {...rest}
       >
@@ -102,7 +101,7 @@ export function Paginator({
           }
           aria-label={"Pagina anterior"}
         >
-          <ChevronLeftIcon fill={colors.slate["900"]} />
+          <ChevronLeftIcon className="text-slate-900 w-4 h-4"/>
         </ButtonPage>
 
         {renderPageButton()}
@@ -118,7 +117,7 @@ export function Paginator({
           }
           aria-label="Próxima Pagina"
         >
-          <ChevronRightIcon fill={colors.slate["900"]} />
+          <ChevronRightIcon className="text-slate-900 w-4 h-4"/>
         </ButtonPage>
       </div>
     </div>

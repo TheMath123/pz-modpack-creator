@@ -1,7 +1,6 @@
-import { ButtonHTMLAttributes } from "react";
-import { PlusIcon } from "@primer/octicons-react";
 import { cn } from "@/utils/cn";
-import colors from "tailwindcss/colors";
+import { Plus } from "lucide-react";
+import { ButtonHTMLAttributes } from "react";
 
 interface AddModButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {}
 export function AddModButton({ className, ...props }: AddModButtonProps) {
@@ -9,15 +8,16 @@ export function AddModButton({ className, ...props }: AddModButtonProps) {
     <button
       className={cn(
         className,
-        "flex items-center justify-center bg-gray-300 w-10 h-10 rounded border border-gray-50",
+        "flex items-center justify-center bg-gray-300 w-10 h-10 rounded-sm border border-gray-50/30",
         "transition-all duration-300",
         "hover:opacity-75 active:opacity-50",
+        "hover:cursor-pointer",
       )}
       title="Add Mods"
       aria-label="Add Mods"
       {...props}
     >
-      <PlusIcon fill={colors.slate[900]} />
+      <Plus className="text-slate-900 w-4 h-4"/>
     </button>
   );
 }

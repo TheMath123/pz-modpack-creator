@@ -1,14 +1,14 @@
-import Link from "next/link";
-import Image from "next/image";
-import { useState, useEffect, ChangeEvent } from "react";
-import {
-  Loading,
-  CopyButton,
-  Accordion,
-  ErrorCard,
-  DeleteItemButton,
-} from "..";
 import { cn } from "@/utils/cn";
+import Image from "next/image";
+import Link from "next/link";
+import { ChangeEvent, useEffect, useState } from "react";
+import {
+  Accordion,
+  CopyButton,
+  DeleteItemButton,
+  ErrorCard,
+  Loading,
+} from "..";
 import { useModList } from "../../contexts/ModListContext";
 
 interface ModCardProps {
@@ -81,7 +81,7 @@ export function ModCard({ workshopId }: ModCardProps) {
   };
 
   return (
-    <div className="border border-gray-50 rounded p-4 w-full flex flex-col gap-4 shadow bg-gray-950 items-start relative">
+    <div className="border border-gray-50/30 rounded-sm p-4 w-full flex flex-col gap-4 shadow-sm bg-gray-950 items-start relative">
       <div className="absolute top-4 right-4 flex flex-col gap-4 items-end">
         <input
           type="checkbox"
@@ -90,7 +90,7 @@ export function ModCard({ workshopId }: ModCardProps) {
           }
           onChange={handleChange}
           className={cn(
-            "h-5 w-5 accent-green-500 border-gray-200 border rounded",
+            "h-4 w-4 accent-green-500 border-gray-200/30 border rounded-sm cursor-pointer",
           )}
         />
         <DeleteItemButton
@@ -103,7 +103,7 @@ export function ModCard({ workshopId }: ModCardProps) {
       </div>
 
       <div className="flex flex-col md:flex-row gap-4 md:items-center items-start w-full">
-        <div className="flex w-40 h-40 overflow-hidden rounded border border-gray-50">
+        <div className="flex w-40 h-40 overflow-hidden rounded-sm border border-gray-50/30">
           {modItem.imageURL && (
             <Image
               src={modItem.imageURL}
@@ -139,7 +139,7 @@ export function ModCard({ workshopId }: ModCardProps) {
           {modItem.modsRequirements && modItem.modsRequirements.length > 0 ? (
             <div className="text-gray-50 flex flex-col gap-2 w-fit">
               <h1 className="font-semibold">Required Mods:</h1>
-              <ul className="flex flex-col gap-2 pr-4 pl-8 py-2 bg-slate-900 rounded list-disc">
+              <ul className="flex flex-col gap-2 pr-4 pl-8 py-2 bg-slate-900 rounded-sm list-disc">
                 {modItem.modsRequirements.map((item, index) => (
                   <li key={"req" + item.id + item.name}>
                     <a

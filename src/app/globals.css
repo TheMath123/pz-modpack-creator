@@ -1,6 +1,30 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@theme {
+  --background-image-gradient-radial: radial-gradient(var(--tw-gradient-stops));
+  --background-image-gradient-conic: conic-gradient(
+    from 180deg at 50% 50%,
+    var(--tw-gradient-stops)
+  );
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
 
 /* Remove browser styles default, how to safari and mozilla */
 input {
@@ -31,7 +55,7 @@ select {
 /* Firefox */
 * {
   scrollbar-width: auto;
-  scrollbar-color: theme("colors.gray.50") transparent;
+  scrollbar-color: var(--color-gray-50) transparent;
 }
 
 /* Chrome, Edge, and Safari */
@@ -44,7 +68,7 @@ select {
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: theme("colors.gray.50");
+  background-color: var(--color-gray-50);
   border-radius: 4px;
   border: none;
 }

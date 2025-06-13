@@ -1,5 +1,5 @@
-import { ButtonHTMLAttributes } from "react";
 import { cn } from "@/utils/cn";
+import { ButtonHTMLAttributes } from "react";
 
 interface ButtonPageProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   active?: boolean;
@@ -20,6 +20,7 @@ export function ButtonPage({
         "transition-all duration-300",
         "hover:brightness-75 active:brightness-50",
         "disabled:cursor-default disabled:brightness-100",
+        "hover:cursor-pointer"
       )}
       {...rest}
     >

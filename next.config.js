@@ -6,6 +6,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "steamuserimages-a.akamaihd.net",
       },
+      {
+        protocol: "https",
+        hostname: "images.steamusercontent.com",
+      },
     ],
   },
 };

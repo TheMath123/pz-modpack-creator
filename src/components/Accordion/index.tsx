@@ -1,8 +1,8 @@
-import { ReactNode, useState } from "react";
-import { ChevronDownIcon, ChevronUpIcon } from "@primer/octicons-react";
-import colors from "tailwindcss/colors";
 import { cn } from "@/utils/cn";
+import { ReactNode, useState } from "react";
+import colors from "tailwindcss/colors";
 import { RawHTML } from "../RawHTML";
+import { ChevronUpIcon, ChevronDownIcon } from "lucide-react";
 
 interface AccordionProps {
   className?: string;
@@ -22,7 +22,7 @@ export function Accordion({
     <div
       className={cn(
         className,
-        "flex flex-col w-full gap-2 border border-gray-50/10 rounded px-2 py-1",
+        "flex flex-col w-full gap-2 border border-gray-50/10 rounded-sm px-2 py-1",
       )}
     >
       <button
@@ -31,6 +31,7 @@ export function Accordion({
           "flex flex-row w-full justify-between items-center gap-4",
           "transition-all duration-200",
           "hover:opacity-75 active:opacity-50",
+          "hover:cursor-pointer"
         )}
       >
         <h1 className="text-gray-50 font-bold">{title}</h1>
@@ -47,7 +48,7 @@ export function Accordion({
       <article
         className={cn(
           isOpen ? "flex" : "hidden",
-          "text-gray-50 p-2 lg:p-4 bg-gray-800 rounded w-full",
+          "text-gray-50 p-2 lg:p-4 bg-gray-800 rounded-sm w-full",
         )}
       >
         <div className="flex w-full overflow-x-scroll">

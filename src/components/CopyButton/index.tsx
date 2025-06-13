@@ -1,7 +1,6 @@
-import { useState } from "react";
 import { delay } from "@/utils/delay";
-import { CopyIcon } from "@primer/octicons-react";
-import colors from "tailwindcss/colors";
+import { Copy } from "lucide-react";
+import { useState } from "react";
 
 interface CopyButtonProps {
   content: string;
@@ -20,15 +19,15 @@ export function CopyButton({ content }: CopyButtonProps) {
   return (
     <div className="relative">
       <button
-        className=" bg-transparent flex items-center justify-center border-none h-6 w-6 rounded hover:opacity-75 active:opacity-50"
+        className=" bg-transparent flex items-center justify-center border-none h-6 w-6 rounded-sm hover:opacity-75 active:opacity-50 hover:cursor-pointer"
         title="Copy URL"
         onClick={() => handleCopyURL()}
       >
-        <CopyIcon fill={colors.gray[50]} size={14} />
+        <Copy className="w-4 h-4 text-gray-50" />
       </button>
 
-      {showCopyAlertMessage && (
-        <span className="text-gray-50 font-semibold absolute z-10 top-0 left-8 bg-gray-950/50 px-2 py-1 border-none rounded transition-all duration-200 ease-in-out shadow">
+      {showCopyAlertMessage && ( 
+        <span className="text-gray-50 text-xs font-light absolute z-10 top-0 left-8 bg-gray-950/50 px-2 py-1 border-none rounded-sm transition-all duration-200 ease-in-out shadow-sm">
           Copied
         </span>
       )}
