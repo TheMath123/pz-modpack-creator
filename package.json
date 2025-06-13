@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@primer/octicons-react": "^19.8.0",
     "axios": "^1.6.2",
     "cheerio": "1.0.0-rc.12",
     "clsx": "^2.0.0",
