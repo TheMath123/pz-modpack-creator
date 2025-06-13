@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# PZ Modpack Creator
 
-## Getting Started
+A web application to create and manage modpacks for the game *Project Zomboid*.
 
-First, run the development server:
+## Installation
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+To set up the project locally, follow these steps:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. **Ensure pnpm is installed**: If you don't have pnpm installed, install it globally using npm:
+   ```
+   npm install -g pnpm
+   ```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+2. Clone the repository:
+   ```
+   git clone https://github.com/TheMath123/pz-modpack-creator.git
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+3. Navigate to the project directory:
+   ```
+   cd pz-modpack-creator
+   ```
 
-## Learn More
+4. Install dependencies using pnpm:
+   ```
+   pnpm install
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+5. Start the development server:
+   ```
+   pnpm run dev
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Then, open http://localhost:3000 in your browser.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Deployment
 
-## Deploy on Vercel
+You can deploy this application on [Vercel](https://vercel.com/) by following these steps:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Go to [Vercel](https://vercel.com/) and log in or sign up.
+2. Click on "New Project" and connect your GitHub account.
+3. Select this repository and deploy.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Vercel automatically detects the use of pnpm (via the `pnpm-lock.yaml` file) and will run `pnpm install` during the build process, so no additional configuration is needed.
+
+## Usage
+
+With the application running, you can:
+
+- Browse available mods for *Project Zomboid*.
+- Select mods to include in your modpack.
+- Configure modpack settings (if applicable).
+- Generate and download your modpack.
+
+**Note**: Detailed usage instructions will be added as the application develops.
+
+## Resources
+
+- [Official Project Zomboid Website](https://projectzomboid.com/)
+- [Project Zomboid Modding Wiki](https://pzwiki.net/wiki/Modding)
+
+## Contributions
+
+Contributions are welcome! Please fork the repository and submit pull requests for improvements or new features.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+
+## Contact
+
+For any questions or feedback, you can contact me on X: [@themat_123](https://x.com/themat_123)
