@@ -2,19 +2,19 @@
 
 import list from "@/assets/list.json";
 import {
-  AddModButton,
-  Button,
   DeleteItemButton,
   DeselectedButton,
   DownloadButton,
   Input,
   ModCard,
-  Paginator,
+  Paginator
 } from "@/components";
+import { Button } from "@/components/ui/button";
 import { useModList } from "@/contexts/ModListContext";
 import { paginate } from "@/helpers/paginate";
 import { LocalStorage } from "@/infra/LocalStorage";
 import { cn } from "@/utils/cn";
+import { Plus } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
 export default function Home() {
@@ -80,7 +80,12 @@ export default function Home() {
               value={modsForAdd}
               placeholder="Enter workshop id"
             />
-            <AddModButton onClick={() => handlerAddMod()} />
+            <Button
+              onClick={() => handlerAddMod()} 
+              size='icon'
+            >
+<Plus className="w-4 h-4"/>
+              </Button>
           </div>
 
           <div className="flex flex-col lg:flex-row gap-4 w-full">
